@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Champ pour le titre de l'offre -->
+    <EditText
+        android:id="@+id/jobTitleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Titre de l'offre"
+        android:inputType="text" />
+
+    <!-- Champ pour la description de l'offre -->
+    <EditText
+        android:id="@+id/jobDescriptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description de l'offre"
+        android:inputType="textMultiLine"
+        android:lines="4" />
+
+    <!-- Champ pour le lieu de l'offre -->
+    <EditText
+        android:id="@+id/jobLocationEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lieu de l'offre"
+        android:inputType="text" />
+
+    <!-- Champ pour la date et l'heure de l'offre -->
+    <EditText
+        android:id="@+id/jobDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date et heure de l'offre"
+        android:inputType="none" />
+
+    <!-- Champ pour l'entreprise -->
+    <EditText
+        android:id="@+id/jobCompanyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom de l'entreprise"
+        android:inputType="text" />
+
+    <!-- Bouton pour enregistrer l'offre -->
+    <Button
+        android:id="@+id/saveJobButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enregistrer l'offre"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "734562512360",
+    "project_id": "gestion-des-emplois-d6360",
+    "storage_bucket": "gestion-des-emplois-d6360.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734562512360:android:0764b77af67e81cad3485d",
+        "android_client_info": {
+          "package_name": "com.example.testforemp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJFHG-uaIgmyewR4ghpYsePk6UybUGQBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name"></string>
+    <string name="jobs">JobApp</string>
+    <string name="Pays">TestForEmp</string>
+
+    <string-array name="cities">
+        <item>Tunis</item>
+        <item>Sfax</item>
+        <item>Sousse</item>
+        <item>Gabès</item>
+        <item>Kairouan</item>
+        <item>Monastir</item>
+        <item>Medenine</item>
+        <item>Bizerte</item>
+        <item>Nabeul</item>
+        <item>Kasserine</item>
+        <item>Zaghouan</item>
+        <item>El Kef</item>
+        <item>Jendouba</item>
+        <item>Gafsa</item>
+        <item>Tozeur</item>
+        <item>Beja</item>
+        <item>Mahdia</item>
+        <item>Manouba</item>
+        <item>Ben Arous</item>
+        <item>La Manouba</item>
+        <item>Siliana</item>
+        <item>Ariana</item>
+        <item>Gbeli</item>
+    </string-array>
+
+    <string-array name="job_types">
+        <item>CDI</item>
+        <item>CDD</item>
+        <item>Stage</item>
+        <item>Freelance</item>
+    </string-array>
+
+    <string-array name="job_domains">
+        <item>Informatique</item>
+        <item>Marketing</item>
+        <item>Ressources Humaines</item>
+        <item>Finance</item>
+        <item>Design</item>
+    </string-array>
+
+    <!-- Strings for DrawerLayout -->
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+</resources>

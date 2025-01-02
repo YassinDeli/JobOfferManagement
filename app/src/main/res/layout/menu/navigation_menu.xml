@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Mon Profil"
+        android:icon="@drawable/user"/>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Déconnexion"
+        android:icon="@drawable/logout"/>
+
+</menu>
