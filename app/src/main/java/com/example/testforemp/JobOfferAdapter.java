@@ -5,76 +5,89 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testforemp.Models.Job;
 
-import java.util.ArrayList;
 import java.util.List;
 
- class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOfferViewHolder> {
+public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobViewHolder> {
 
-    private Context context;
     private List<Job> jobList;
+    private final Context context;
 
     public JobOfferAdapter(Context context, List<Job> jobList) {
         this.context = context;
-        this.jobList = jobList != null ? jobList : new ArrayList<>(); // Initialisation de jobList si null
+        this.jobList = jobList;
     }
 
     @Override
-    public JobOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_job_offer, parent, false);
-        return new JobOfferViewHolder(view);
+    public JobViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_job_offer, parent, false);
+        return new JobViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(JobOfferViewHolder holder, int position) {
-        if (position >= 0 && position < jobList.size()) {
-            Job job = jobList.get(position);
-            holder.titleTextView.setText(job.getTitle());
-            holder.companyTextView.setText(job.getCompany());
-            holder.locationTextView.setText(job.getLocation());
-            holder.dateTextView.setText(job.getDate());
-            holder.descriptionTextView.setText(job.getDescription());
+    public void onBindViewHolder(JobViewHolder holder, int position) {
+        // Récupérer l'offre d'emploi à la position donnée
+        Job job = jobList.get(position);
 
-            holder.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, JobDetailsActivity.class);
-                intent.putExtra("jobTitle", job.getTitle());
-                intent.putExtra("jobCompany", job.getCompany());
-                intent.putExtra("jobLocation", job.getLocation());
-                intent.putExtra("jobDatePosted", job.getDate());
-                intent.putExtra("jobDescription", job.getDescription());
-                context.startActivity(intent);
-            });
-        }
+        // Afficher les informations dans les TextViews
+        holder.jobTitle.setText(job.getTitle());
+        holder.jobCompany.setText(job.getCompany());
+        holder.jobLocation.setText(job.getLocation());
+        holder.jobDate.setText(job.getDate());
+        holder.jobDescription.setText(job.getDescription());
+        holder.jobDomain.setText(job.getDomain());  // Affichage du domaine
+        holder.jobType.setText(job.getType());      // Affichage du type
+
+        // Action du bouton Modifier
+        holder.editJobButton.setOnClickListener(v -> {
+            // Passer les informations de l'offre à UpdateJobActivity
+            Intent intent = new Intent(context, UpdateJobActivity.class);
+            intent.putExtra("jobTitle", job.getTitle());
+            intent.putExtra("jobCompany", job.getCompany());
+            intent.putExtra("jobLocation", job.getLocation());
+            intent.putExtra("jobDate", job.getDate());
+            intent.putExtra("jobDescription", job.getDescription());
+            intent.putExtra("jobDomain", job.getDomain());
+            intent.putExtra("jobType", job.getType());
+            context.startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return jobList != null ? jobList.size() : 0;  // Gestion du cas où jobList est null
+        return jobList.size();
     }
 
-    public static class JobOfferViewHolder extends RecyclerView.ViewHolder {
-
-        TextView titleTextView, companyTextView, locationTextView, dateTextView, descriptionTextView;
-
-        public JobOfferViewHolder(View itemView) {
-            super(itemView);
-            titleTextView = itemView.findViewById(R.id.jobTitle);
-            companyTextView = itemView.findViewById(R.id.jobCompany);
-            locationTextView = itemView.findViewById(R.id.jobLocation);
-            dateTextView = itemView.findViewById(R.id.jobDate);
-            descriptionTextView = itemView.findViewById(R.id.jobDescription);
+    // Méthode pour mettre à jour la liste des offres d'emploi
+    public void updateJobList(List<Job> newJobList) {
+        if (newJobList != null) {
+            jobList.clear();
+            jobList.addAll(newJobList);
+            notifyDataSetChanged();  // Rafraîchir la vue
         }
     }
 
-     public void updateJobList(List<Job> jobList) {
-         this.jobList.clear();
-         this.jobList.addAll(jobList);
-         notifyDataSetChanged();
-     }
+    // ViewHolder pour chaque item de la liste
+    public static class JobViewHolder extends RecyclerView.ViewHolder {
+        TextView jobTitle, jobCompany, jobLocation, jobDate, jobDescription, jobDomain, jobType;
+        Button editJobButton;
+
+        public JobViewHolder(View itemView) {
+            super(itemView);
+            jobTitle = itemView.findViewById(R.id.jobTitle);
+            jobCompany = itemView.findViewById(R.id.jobCompany);
+            jobLocation = itemView.findViewById(R.id.jobLocation);
+            jobDate = itemView.findViewById(R.id.jobDate);
+            jobDescription = itemView.findViewById(R.id.jobDescription);
+            jobDomain = itemView.findViewById(R.id.jobDomain);
+            jobType = itemView.findViewById(R.id.jobType);
+            editJobButton = itemView.findViewById(R.id.editJobButton);
+        }
+    }
 }

@@ -46,6 +46,22 @@
         android:hint="Nom de l'entreprise"
         android:inputType="text" />
 
+    <!-- Champ pour le type de l'offre -->
+    <EditText
+        android:id="@+id/jobTypeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type de l'offre (ex : Temps plein, Temps partiel)"
+        android:inputType="text" />
+
+    <!-- Champ pour le domaine de l'offre -->
+    <EditText
+        android:id="@+id/jobDomainEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Domaine de l'offre (ex : Informatique, Marketing)"
+        android:inputType="text" />
+
     <!-- Bouton pour enregistrer l'offre -->
     <Button
         android:id="@+id/saveJobButton"

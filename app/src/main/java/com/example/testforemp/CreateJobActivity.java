@@ -4,19 +4,21 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.testforemp.Models.Job;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CreateJobActivity extends AppCompatActivity {
 
-    private EditText titleEditText, descriptionEditText, locationEditText, dateEditText, companyEditText;
+    private EditText titleEditText, descriptionEditText, locationEditText, dateEditText, companyEditText, typeEditText, domainEditText;
     private Button createJobButton;
     private FirebaseFirestore db;
     private int selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
@@ -26,12 +28,14 @@ public class CreateJobActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_job);
 
-        // Initialisation des EditText avec les bons IDs
+        // Initialisation des EditText
         titleEditText = findViewById(R.id.jobTitleEditText);
         descriptionEditText = findViewById(R.id.jobDescriptionEditText);
         locationEditText = findViewById(R.id.jobLocationEditText);
         dateEditText = findViewById(R.id.jobDateEditText);
         companyEditText = findViewById(R.id.jobCompanyEditText);
+        typeEditText = findViewById(R.id.jobTypeEditText);
+        domainEditText = findViewById(R.id.jobDomainEditText); // Initialisation du champ domaine
 
         createJobButton = findViewById(R.id.saveJobButton);
 
@@ -50,7 +54,7 @@ public class CreateJobActivity extends AppCompatActivity {
                         selectedYear = year;
                         selectedMonth = monthOfYear;
                         selectedDay = dayOfMonth;
-                        showTimePickerDialog(); // Show time picker once the date is selected
+                        showTimePickerDialog(); // Afficher TimePicker après sélection de la date
                     }, selectedYear, selectedMonth, selectedDay);
             datePickerDialog.show();
         });
@@ -63,30 +67,29 @@ public class CreateJobActivity extends AppCompatActivity {
             String location = locationEditText.getText().toString();
             String date = dateEditText.getText().toString();
             String company = companyEditText.getText().toString();
+            String type = typeEditText.getText().toString();
+            String domain = domainEditText.getText().toString(); // Récupération du domaine
 
-            // Vérification des champs (ajoute une validation si nécessaire)
-            if (title.isEmpty() || description.isEmpty() || location.isEmpty() || date.isEmpty() || company.isEmpty()) {
+            // Vérifier que tous les champs sont remplis
+            if (title.isEmpty() || description.isEmpty() || location.isEmpty() || date.isEmpty() || company.isEmpty() || type.isEmpty() || domain.isEmpty()) {
                 Toast.makeText(CreateJobActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Créer un objet Job avec les valeurs récupérées
-            Job job = new Job(title, company, location, description, date);  // Crée un Job avec toutes les informations
+            Job job = new Job(title, description, location, company, date, type, domain);
 
-            // Ajouter l'offre d'emploi dans la base de données Firestore
+            // Ajouter l'offre dans Firestore
             db.collection("jobs")
-                    .add(job)  // Ajoute le job dans la collection "jobs"
+                    .add(job)
                     .addOnSuccessListener(documentReference -> {
-                        // Afficher un message de succès
                         Toast.makeText(CreateJobActivity.this, "Offre d'emploi ajoutée avec succès", Toast.LENGTH_SHORT).show();
-                        // Rediriger vers le dashboard recruteur pour rafraîchir la liste des emplois
                         Intent intent = new Intent(CreateJobActivity.this, RecruiterDashboardActivity.class);
                         startActivity(intent);
-                        finish();  // Ferme l'activité actuelle
+                        finish();
                     })
                     .addOnFailureListener(e -> {
-                        // Afficher un message d'erreur
-                        Toast.makeText(CreateJobActivity.this, "Erreur lors de l'ajout de l'offre d'emploi", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateJobActivity.this, "Erreur lors de l'ajout de l'offre", Toast.LENGTH_SHORT).show();
                     });
         });
     }
@@ -106,7 +109,6 @@ public class CreateJobActivity extends AppCompatActivity {
     }
 
     private void updateDateTimeField() {
-        // Formater la date et l'heure dans un format spécifique (ex: 01/01/2024 14:30)
         Calendar calendar = Calendar.getInstance();
         calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");

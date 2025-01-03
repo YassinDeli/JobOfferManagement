@@ -1,43 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/jobTitleEditText"
+        android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre du poste" />
+        android:hint="Job Title" />
 
     <EditText
-        android:id="@+id/jobDescriptionEditText"
+        android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description" />
 
     <EditText
-        android:id="@+id/jobLocationEditText"
+        android:id="@+id/editTextLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Lieu" />
+        android:hint="Location" />
 
     <EditText
-        android:id="@+id/jobDateEditText"
+        android:id="@+id/editTextCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date et heure" />
+        android:hint="Company" />
 
     <EditText
-        android:id="@+id/jobCompanyEditText"
+        android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Entreprise" />
+        android:hint="Date" />
+
+    <EditText
+        android:id="@+id/editTextType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type (e.g., Full-Time, Part-Time)" />
+
+    <EditText
+        android:id="@+id/editTextDomain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Domain (e.g., IT, Marketing)" />
 
     <Button
-        android:id="@+id/updateJobButton"
-        android:layout_width="match_parent"
+        android:id="@+id/buttonUpdate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mettre à jour" />
+        android:text="Update Job" />
+
 </LinearLayout>

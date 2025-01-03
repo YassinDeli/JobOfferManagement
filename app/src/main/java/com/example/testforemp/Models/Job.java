@@ -1,64 +1,46 @@
 package com.example.testforemp.Models;
-
 public class Job {
     private String title;
-    private String company;
-    private String location;
-    private String date;
     private String description;
+    private String location;
+    private String company;
+    private String date;
+    private String type;    // Nouveau champ : Type d'emploi (ex : temps plein, temps partiel)
+    private String domain;  // Nouveau champ : Domaine (ex : informatique, marketing)
 
-    // Constructeur sans argument requis pour Firebase
+    // Constructeur vide requis par Firebase
     public Job() {
-        // Firebase nécessite un constructeur par défaut (sans argument)
     }
 
-    // Constructeur avec des arguments
-    public Job(String title, String company, String location, String date, String description) {
+    public Job(String title, String description, String location, String company, String date, String type, String domain) {
         this.title = title;
-        this.company = company;
-        this.location = location;
-        this.date = date;
         this.description = description;
+        this.location = location;
+        this.company = company;
+        this.date = date;
+        this.type = type;
+        this.domain = domain;
     }
 
     // Getters et Setters
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getCompany() {
-        return company;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
+    public String getCompany() { return company; }
+    public void setCompany(String company) { this.company = company; }
 
-    public String getLocation() {
-        return location;
-    }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDomain() { return domain; }
+    public void setDomain(String domain) { this.domain = domain; }
 }

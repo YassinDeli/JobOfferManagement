@@ -3,6 +3,7 @@ package com.example.testforemp.Utils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.testforemp.Models.Cand;
 import com.example.testforemp.Models.Job;
 import com.example.testforemp.Models.User;
 import com.example.testforemp.RecruiterDashboardActivity;
@@ -112,4 +113,7 @@ public class DataBase {
         void onLoginSuccess(boolean isRecruiter);
         void onLoginFailure(String message);
     }
+
+
+
 }

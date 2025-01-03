@@ -47,4 +47,8 @@
     <!-- Strings for DrawerLayout -->
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
+
+    <string name="nav_profile">Profile</string>
+    <string name="nav_logout">Logout</string>
+
 </resources>

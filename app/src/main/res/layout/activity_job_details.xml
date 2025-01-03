@@ -33,5 +33,22 @@
         android:layout_height="wrap_content"
         android:text="Date Posted"
         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/jobDomainDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Domaine"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/jobTypeDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+
+
 
 </LinearLayout>

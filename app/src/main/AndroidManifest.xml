@@ -33,6 +33,11 @@
         <activity android:name=".CreateJobActivity"/>
         <activity android:name=".ProfileSettingsActivity" />
         <activity android:name=".JobDetailsActivity"/>
+        <activity android:name=".UpdateJobActivity"/>
+        <activity android:name=".CreateCandidateActivity"></activity>
+        <activity android:name=".UpdateCandidateActivity" />
+
+
 
 
 
