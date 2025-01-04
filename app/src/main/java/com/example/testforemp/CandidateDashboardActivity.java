@@ -2,8 +2,11 @@ package com.example.testforemp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,14 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testforemp.Models.Job;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class CandidateDashboardActivity extends AppCompatActivity {
 
@@ -31,6 +31,7 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ImageView menuBurger;
     private RecyclerView jobListRecyclerView;
+    private Spinner typeFilterSpinner, domainFilterSpinner;
     private JobOfferAdapter adapter;
     private List<Job> jobList = new ArrayList<>();
     private FirebaseFirestore db;
@@ -45,6 +46,8 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
         menuBurger = findViewById(R.id.menuBurger);
         jobListRecyclerView = findViewById(R.id.jobListRecyclerView);
+        typeFilterSpinner = findViewById(R.id.typeFilter);
+        domainFilterSpinner = findViewById(R.id.domainFilter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,7 +61,7 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         jobListRecyclerView.setAdapter(adapter);
 
         // Chargement des offres d'emploi
-        loadJobOffers();
+        loadJobOffers(null, null);
 
         // Gestion du menu hamburger
         menuBurger.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
@@ -70,6 +73,9 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+
+        // Gestion des spinners
+        setupFilters();
 
         // Boutons pour gérer les candidats
         Button btnCreateCandidate = findViewById(R.id.createCandidateButton);
@@ -87,18 +93,55 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void loadJobOffers() {
-        db.collection("jobs").addSnapshotListener(new EventListener<QuerySnapshot>() {
+    private void setupFilters() {
+        // Écouteur pour le spinner Type
+        typeFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable com.google.firebase.firestore.FirebaseFirestoreException error) {
-                if (error != null) {
-                    Toast.makeText(CandidateDashboardActivity.this, "Erreur lors du chargement des offres.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (value != null) {
-                    List<Job> jobList = value.toObjects(Job.class);
-                    adapter.updateJobList(jobList); // Met à jour la liste avec les nouvelles données
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedType = position == 0 ? null : parent.getItemAtPosition(position).toString();
+                String selectedDomain = domainFilterSpinner.getSelectedItem().toString();
+                loadJobOffers(selectedType, selectedDomain);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                loadJobOffers(null, null);
+            }
+        });
+
+        // Écouteur pour le spinner Domaine
+        domainFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDomain = position == 0 ? null : parent.getItemAtPosition(position).toString();
+                String selectedType = typeFilterSpinner.getSelectedItem().toString();
+                loadJobOffers(selectedType, selectedDomain);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                loadJobOffers(null, null);
+            }
+        });
+    }
+
+    private void loadJobOffers(String typeFilter, String domainFilter) {
+        Query query = db.collection("jobs");
+
+        if (typeFilter != null && !typeFilter.isEmpty()) {
+            query = query.whereEqualTo("type", typeFilter);
+        }
+
+        if (domainFilter != null && !domainFilter.isEmpty()) {
+            query = query.whereEqualTo("domain", domainFilter);
+        }
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                jobList = task.getResult().toObjects(Job.class);
+                adapter.updateJobList(jobList);
+            } else {
+                Toast.makeText(CandidateDashboardActivity.this, "Erreur lors du chargement des offres.", Toast.LENGTH_SHORT).show();
             }
         });
     }
