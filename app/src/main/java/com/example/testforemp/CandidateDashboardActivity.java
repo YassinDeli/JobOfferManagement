@@ -32,7 +32,7 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     private ImageView menuBurger;
     private RecyclerView jobListRecyclerView;
     private Spinner typeFilterSpinner, domainFilterSpinner;
-    private JobOfferAdapter adapter;
+    private CandidateJobOfferAdapter adapter;
     private List<Job> jobList = new ArrayList<>();
     private FirebaseFirestore db;
 
@@ -41,7 +41,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_dashboard);
 
-        // Initialisation des vues
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         menuBurger = findViewById(R.id.menuBurger);
@@ -52,18 +51,14 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Initialisation de Firebase
         db = FirebaseFirestore.getInstance();
 
-        // Configuration du RecyclerView
         jobListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new JobOfferAdapter(this, jobList);
+        adapter = new CandidateJobOfferAdapter(this, jobList);
         jobListRecyclerView.setAdapter(adapter);
 
-        // Chargement des offres d'emploi
         loadJobOffers(null, null);
 
-        // Gestion du menu hamburger
         menuBurger.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -74,10 +69,8 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             return true;
         });
 
-        // Gestion des spinners
         setupFilters();
 
-        // Boutons pour gérer les candidats
         Button btnCreateCandidate = findViewById(R.id.createCandidateButton);
         btnCreateCandidate.setOnClickListener(v -> {
             Intent intent = new Intent(CandidateDashboardActivity.this, CreateCandidateActivity.class);
@@ -94,7 +87,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     }
 
     private void setupFilters() {
-        // Écouteur pour le spinner Type
         typeFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,7 +101,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Écouteur pour le spinner Domaine
         domainFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

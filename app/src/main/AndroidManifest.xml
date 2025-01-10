@@ -36,6 +36,7 @@
         <activity android:name=".UpdateJobActivity"/>
         <activity android:name=".CreateCandidateActivity"></activity>
         <activity android:name=".UpdateCandidateActivity" />
+        <activity android:name=".ApplyJobActivity" />
 
 
 
