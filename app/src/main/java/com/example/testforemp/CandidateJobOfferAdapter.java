@@ -44,13 +44,7 @@ public class CandidateJobOfferAdapter extends RecyclerView.Adapter<CandidateJobO
 
         holder.applyJobButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, ApplyJobActivity.class);
-            intent.putExtra("jobTitle", job.getTitle());
-            intent.putExtra("jobCompany", job.getCompany());
-            intent.putExtra("jobLocation", job.getLocation());
-            intent.putExtra("jobDate", job.getDate());
-            intent.putExtra("jobDescription", job.getDescription());
-            intent.putExtra("jobDomain", job.getDomain());
-            intent.putExtra("jobType", job.getType());
+            intent.putExtra("jobId", job.getId()); // Assurez-vous que Job a un champ id
             context.startActivity(intent);
         });
     }

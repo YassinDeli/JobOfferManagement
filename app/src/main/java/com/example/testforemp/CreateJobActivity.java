@@ -83,7 +83,8 @@ public class CreateJobActivity extends AppCompatActivity {
             db.collection("jobs")
                     .add(job)
                     .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(CreateJobActivity.this, "Offre d'emploi ajoutée avec succès", Toast.LENGTH_SHORT).show();
+                        String jobId = documentReference.getId();
+                        Toast.makeText(CreateJobActivity.this, "Offre d'emploi ajoutée avec succès. ID: " + jobId, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(CreateJobActivity.this, RecruiterDashboardActivity.class);
                         startActivity(intent);
                         finish();

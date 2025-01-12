@@ -32,29 +32,19 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
 
     @Override
     public void onBindViewHolder(JobViewHolder holder, int position) {
-        // Récupérer l'offre d'emploi à la position donnée
         Job job = jobList.get(position);
 
-        // Afficher les informations dans les TextViews
         holder.jobTitle.setText(job.getTitle());
         holder.jobCompany.setText(job.getCompany());
         holder.jobLocation.setText(job.getLocation());
         holder.jobDate.setText(job.getDate());
         holder.jobDescription.setText(job.getDescription());
-        holder.jobDomain.setText(job.getDomain());  // Affichage du domaine
-        holder.jobType.setText(job.getType());      // Affichage du type
+        holder.jobDomain.setText(job.getDomain());
+        holder.jobType.setText(job.getType());
 
-        // Action du bouton Modifier
-        holder.editJobButton.setOnClickListener(v -> {
-            // Passer les informations de l'offre à UpdateJobActivity
-            Intent intent = new Intent(context, UpdateJobActivity.class);
-            intent.putExtra("jobTitle", job.getTitle());
-            intent.putExtra("jobCompany", job.getCompany());
-            intent.putExtra("jobLocation", job.getLocation());
-            intent.putExtra("jobDate", job.getDate());
-            intent.putExtra("jobDescription", job.getDescription());
-            intent.putExtra("jobDomain", job.getDomain());
-            intent.putExtra("jobType", job.getType());
+        holder.viewCandidatesButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewCandidatesActivity.class);
+            intent.putExtra("jobId", job.getId());
             context.startActivity(intent);
         });
     }
@@ -64,19 +54,17 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
         return jobList.size();
     }
 
-    // Méthode pour mettre à jour la liste des offres d'emploi
     public void updateJobList(List<Job> newJobList) {
         if (newJobList != null) {
             jobList.clear();
             jobList.addAll(newJobList);
-            notifyDataSetChanged();  // Rafraîchir la vue
+            notifyDataSetChanged();
         }
     }
 
-    // ViewHolder pour chaque item de la liste
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView jobTitle, jobCompany, jobLocation, jobDate, jobDescription, jobDomain, jobType;
-        Button editJobButton;
+        Button viewCandidatesButton;
 
         public JobViewHolder(View itemView) {
             super(itemView);
@@ -87,8 +75,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
             jobDescription = itemView.findViewById(R.id.jobDescription);
             jobDomain = itemView.findViewById(R.id.jobDomain);
             jobType = itemView.findViewById(R.id.jobType);
-            editJobButton = itemView.findViewById(R.id.editJobButton);
+            viewCandidatesButton = itemView.findViewById(R.id.viewCandidatesButton);
         }
     }
-
 }

@@ -1,5 +1,7 @@
 package com.example.testforemp.Models;
+
 public class Job {
+    private String id;
     private String title;
     private String description;
     private String location;
@@ -12,6 +14,7 @@ public class Job {
     public Job() {
     }
 
+    // Constructeur avec tous les paramètres sauf l'ID
     public Job(String title, String description, String location, String company, String date, String type, String domain) {
         this.title = title;
         this.description = description;
@@ -22,7 +25,22 @@ public class Job {
         this.domain = domain;
     }
 
+    // Constructeur avec tous les paramètres y compris l'ID
+    public Job(String id, String title, String description, String location, String company, String date, String type, String domain) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.company = company;
+        this.date = date;
+        this.type = type;
+        this.domain = domain;
+    }
+
     // Getters et Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 

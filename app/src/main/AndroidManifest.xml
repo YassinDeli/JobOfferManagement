@@ -37,15 +37,7 @@
         <activity android:name=".CreateCandidateActivity"></activity>
         <activity android:name=".UpdateCandidateActivity" />
         <activity android:name=".ApplyJobActivity" />
-
-
-
-
-
-
-
-
-
+        <activity android:name=".ViewCandidatesActivity" />
 
     </application>
 

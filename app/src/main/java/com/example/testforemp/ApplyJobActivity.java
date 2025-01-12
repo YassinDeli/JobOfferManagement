@@ -3,6 +3,7 @@ package com.example.testforemp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,9 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.testforemp.Models.Postuler;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,7 +32,6 @@ public class ApplyJobActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseFirestore db;
     private String jobId;
-    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +50,7 @@ public class ApplyJobActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
 
-        // Récupérer l'ID de l'offre d'emploi et l'ID de l'utilisateur depuis l'intent
         jobId = getIntent().getStringExtra("jobId");
-        userId = getIntent().getStringExtra("userId");
 
         btnUploadFile.setOnClickListener(v -> openFileChooser());
 
@@ -63,13 +60,17 @@ public class ApplyJobActivity extends AppCompatActivity {
             String phone = etPhone.getText().toString();
             String description = etDescription.getText().toString();
 
-            checkIfAlreadyApplied(name, surname, phone, description);
+            if (fileUri != null) {
+                uploadFile(fileUri, name, surname, phone, description);
+            } else {
+                submitInformation(name, surname, phone, description, null);
+            }
         });
     }
 
     private void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*"); // Permet de sélectionner tous types de fichiers
+        intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         try {
             startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), PICK_FILE);
@@ -87,37 +88,13 @@ public class ApplyJobActivity extends AppCompatActivity {
         }
     }
 
-    private void checkIfAlreadyApplied(String name, String surname, String phone, String description) {
-        db.collection("postuler")
-                .whereEqualTo("jobId", jobId)
-                .whereEqualTo("userId", userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            Toast.makeText(ApplyJobActivity.this, "Vous avez déjà postulé pour cette offre.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (fileUri != null) {
-                                uploadFile(fileUri, name, surname, phone, description);
-                            } else {
-                                saveApplicationData(name, surname, phone, description, null);
-                            }
-                        }
-                    } else {
-                        Log.e("FirebaseError", "Erreur lors de la vérification de la candidature", task.getException());
-                        Toast.makeText(ApplyJobActivity.this, "Erreur lors de la vérification de la candidature.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private void uploadFile(Uri fileUri, String name, String surname, String phone, String description) {
         StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(fileUri));
         fileReference.putFile(fileUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                         String fileUrl = uri.toString();
-                        saveApplicationData(name, surname, phone, description, fileUrl);
+                        submitInformation(name, surname, phone, description, fileUrl);
                     });
                 })
                 .addOnFailureListener(e -> {
@@ -126,27 +103,18 @@ public class ApplyJobActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveApplicationData(String name, String surname, String phone, String description, String fileUrl) {
-        Map<String, Object> applicationData = new HashMap<>();
-        applicationData.put("name", name);
-        applicationData.put("surname", surname);
-        applicationData.put("phone", phone);
-        applicationData.put("description", description);
-        applicationData.put("jobId", jobId);
-        applicationData.put("userId", userId);
-        if (fileUrl != null) {
-            applicationData.put("fileUrl", fileUrl);
-        }
+    private void submitInformation(String name, String surname, String phone, String description, String fileUrl) {
+        Postuler postuler = new Postuler(name, surname, phone, description, fileUrl, jobId);
 
         db.collection("postuler")
-                .add(applicationData)
+                .add(postuler)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(ApplyJobActivity.this, "Candidature soumise avec succès!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplyJobActivity.this, "Informations soumises avec succès!", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("FirebaseError", "Erreur lors de l'ajout de la candidature", e);
-                    Toast.makeText(ApplyJobActivity.this, "Échec de la soumission de la candidature.", Toast.LENGTH_SHORT).show();
+                    Log.e("FirebaseError", "Erreur lors de l'ajout des informations à Firestore", e);
+                    Toast.makeText(ApplyJobActivity.this, "Échec de la soumission des informations.", Toast.LENGTH_SHORT).show();
                 });
     }
 
