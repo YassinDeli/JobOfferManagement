@@ -38,6 +38,7 @@
         <activity android:name=".UpdateCandidateActivity" />
         <activity android:name=".ApplyJobActivity" />
         <activity android:name=".ViewCandidatesActivity" />
+        <activity android:name=".ViewResultActivity" />
 
     </application>
 

@@ -3,7 +3,6 @@ package com.example.testforemp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +15,6 @@ import com.example.testforemp.Models.Postuler;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ApplyJobActivity extends AppCompatActivity {
 
@@ -104,11 +99,14 @@ public class ApplyJobActivity extends AppCompatActivity {
     }
 
     private void submitInformation(String name, String surname, String phone, String description, String fileUrl) {
-        Postuler postuler = new Postuler(name, surname, phone, description, fileUrl, jobId);
+        Postuler postuler = new Postuler(name, surname, phone, description, fileUrl, jobId, "pending");
 
         db.collection("postuler")
                 .add(postuler)
                 .addOnSuccessListener(documentReference -> {
+                    String postulerId = documentReference.getId();
+                    postuler.setId(postulerId);
+                    documentReference.update("id", postulerId);
                     Toast.makeText(ApplyJobActivity.this, "Informations soumises avec succès!", Toast.LENGTH_SHORT).show();
                     finish();
                 })

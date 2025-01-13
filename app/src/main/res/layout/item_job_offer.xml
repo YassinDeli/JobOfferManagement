@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,10 +14,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/jobCompany"
+        android:id="@+id/jobDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Company Name"
+        android:text="Description"
         android:textSize="16sp" />
 
     <TextView
@@ -27,40 +28,45 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/jobCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Company"
+        android:textSize="14sp" />
+
+    <TextView
         android:id="@+id/jobDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date Posted"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/jobDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Job Description"
-        android:textSize="14sp"
-        android:paddingTop="8dp" />
-
-    <TextView
-        android:id="@+id/jobDomain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Domain"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        android:text="Date"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/jobType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Type"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/jobDomain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Domain"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/viewCandidatesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voir les candidats"
+        android:text="View Candidates"
         android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Job"
+        android:layout_marginTop="8dp" />
+
 </LinearLayout>

@@ -26,4 +26,26 @@
         android:layout_height="wrap_content"
         android:text="Candidate Phone"
         android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/acceptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accepter"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/refuseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refuser"
+        android:layout_marginTop="8dp" />
+
+    <ImageView
+        android:id="@+id/statusIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/accept"
+    android:contentDescription="Status Icon" />
 </LinearLayout>

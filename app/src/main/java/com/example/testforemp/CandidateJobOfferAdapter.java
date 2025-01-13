@@ -1,3 +1,5 @@
+// CandidateJobOfferAdapter.java
+
 package com.example.testforemp;
 
 import android.content.Context;
@@ -44,7 +46,13 @@ public class CandidateJobOfferAdapter extends RecyclerView.Adapter<CandidateJobO
 
         holder.applyJobButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, ApplyJobActivity.class);
-            intent.putExtra("jobId", job.getId()); // Assurez-vous que Job a un champ id
+            intent.putExtra("jobId", job.getId());
+            context.startActivity(intent);
+        });
+
+        holder.viewResultsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewResultActivity.class);
+            intent.putExtra("jobId", job.getId());
             context.startActivity(intent);
         });
     }
@@ -64,7 +72,7 @@ public class CandidateJobOfferAdapter extends RecyclerView.Adapter<CandidateJobO
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView jobTitle, jobCompany, jobLocation, jobDate, jobDescription, jobDomain, jobType;
-        Button applyJobButton;
+        Button applyJobButton, viewResultsButton;
 
         public JobViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +84,7 @@ public class CandidateJobOfferAdapter extends RecyclerView.Adapter<CandidateJobO
             jobDomain = itemView.findViewById(R.id.jobDomain);
             jobType = itemView.findViewById(R.id.jobType);
             applyJobButton = itemView.findViewById(R.id.applyJobButton);
+            viewResultsButton = itemView.findViewById(R.id.viewResultsButton);
         }
     }
 }

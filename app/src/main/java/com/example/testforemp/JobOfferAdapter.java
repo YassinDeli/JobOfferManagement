@@ -47,6 +47,12 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
             intent.putExtra("jobId", job.getId());
             context.startActivity(intent);
         });
+
+        holder.updateButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, UpdateJobActivity.class);
+            intent.putExtra("jobTitle", job.getTitle());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -64,7 +70,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView jobTitle, jobCompany, jobLocation, jobDate, jobDescription, jobDomain, jobType;
-        Button viewCandidatesButton;
+        Button viewCandidatesButton, updateButton;
 
         public JobViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +82,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobVie
             jobDomain = itemView.findViewById(R.id.jobDomain);
             jobType = itemView.findViewById(R.id.jobType);
             viewCandidatesButton = itemView.findViewById(R.id.viewCandidatesButton);
+            updateButton = itemView.findViewById(R.id.updateButton);
         }
     }
 }

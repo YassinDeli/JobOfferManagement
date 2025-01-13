@@ -1,5 +1,6 @@
 package com.example.testforemp;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testforemp.Models.Cand;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import android.app.DatePickerDialog;
-import android.widget.DatePicker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,15 +51,29 @@ public class UpdateCandidateActivity extends AppCompatActivity {
     }
 
     private void loadCandidateData() {
-        etFirstName.setText(getIntent().getStringExtra("firstName"));
-        etLastName.setText(getIntent().getStringExtra("lastName"));
-        etEmail.setText(getIntent().getStringExtra("email"));
-        etPhoneNumber.setText(getIntent().getStringExtra("phoneNumber"));
-        etCity.setText(getIntent().getStringExtra("city"));
-        etExperience.setText(getIntent().getStringExtra("experience"));
-        etSkills.setText(getIntent().getStringExtra("skills"));
-        etIdentityCardNumber.setText(getIntent().getStringExtra("identityCardNumber"));
-        etBirthDate.setText(getIntent().getStringExtra("birthDate"));
+        String identityCardNumber = getIntent().getStringExtra("identityCardNumber");
+        if (identityCardNumber != null) {
+            db.collection("candidature")
+                    .whereEqualTo("identityCardNumber", identityCardNumber)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            Cand candidate = queryDocumentSnapshots.getDocuments().get(0).toObject(Cand.class);
+                            if (candidate != null) {
+                                etFirstName.setText(candidate.getFirstName());
+                                etLastName.setText(candidate.getLastName());
+                                etEmail.setText(candidate.getEmail());
+                                etPhoneNumber.setText(candidate.getPhoneNumber());
+                                etCity.setText(candidate.getCity());
+                                etExperience.setText(candidate.getExperience());
+                                etSkills.setText(String.join(", ", candidate.getSkills()));
+                                etIdentityCardNumber.setText(candidate.getIdentityCardNumber());
+                                etBirthDate.setText(candidate.getBirthDate());
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(UpdateCandidateActivity.this, "Erreur lors de la récupération des données du candidat", Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void showDatePicker() {
@@ -98,13 +110,24 @@ public class UpdateCandidateActivity extends AppCompatActivity {
         // Créer un objet candidat mis à jour
         Cand updatedCandidate = new Cand(identityCardNumber, firstName, lastName, email, phoneNumber, birthDate, city, experience, skills, identityCardNumber);
 
-        db.collection("candidates")
-                .document(identityCardNumber)
-                .set(updatedCandidate)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Candidat mis à jour avec succès", Toast.LENGTH_SHORT).show();
-                    finish();
+        db.collection("candidature")
+                .whereEqualTo("identityCardNumber", identityCardNumber)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        String documentId = queryDocumentSnapshots.getDocuments().get(0).getId();
+
+                        // Mettre à jour le document dans Firestore
+                        db.collection("candidature")
+                                .document(documentId)
+                                .set(updatedCandidate)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "Candidat mis à jour avec succès", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(this, "Erreur lors de la mise à jour", Toast.LENGTH_SHORT).show());
+                    }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Erreur lors de la mise à jour", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Erreur lors de la récupération du document", Toast.LENGTH_SHORT).show());
     }
 }

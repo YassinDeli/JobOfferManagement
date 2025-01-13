@@ -8,19 +8,21 @@ public class Postuler {
     private String description;
     private String fileUrl;
     private String jobId;
+    private String status; // Champ pour indiquer si la candidature est acceptée ou refusée
 
     // Constructeur vide requis par Firebase
     public Postuler() {
     }
 
     // Constructeur avec tous les paramètres
-    public Postuler(String name, String surname, String phone, String description, String fileUrl, String jobId) {
+    public Postuler(String name, String surname, String phone, String description, String fileUrl, String jobId, String status) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.description = description;
         this.fileUrl = fileUrl;
         this.jobId = jobId;
+        this.status = status;
     }
 
     // Getters et Setters
@@ -44,4 +46,7 @@ public class Postuler {
 
     public String getJobId() { return jobId; }
     public void setJobId(String jobId) { this.jobId = jobId; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
